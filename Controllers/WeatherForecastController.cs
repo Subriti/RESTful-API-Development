@@ -1,5 +1,6 @@
 using Fetching_Weather;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
 {
@@ -11,13 +12,6 @@ namespace RESTful_API__ASP.NET_Core.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
@@ -32,10 +26,10 @@ namespace RESTful_API__ASP.NET_Core.Controllers
         }
 
         [HttpGet("fetchWeatherData")]
-        public ActionResult<WeatherDto> GetCurrentWeatherData(string city, string? latitude)
+        public ActionResult<WeatherDto> GetCurrentWeatherData([Required]string city, string? longitude)
         {
             WeatherFetchService weatherFetchService = new WeatherFetchService();
-            var weather = weatherFetchService.FetchData(city, latitude).Result;
+            var weather = weatherFetchService.FetchData(city, longitude).Result;
             if (weather == null)
             {
                 return NotFound();

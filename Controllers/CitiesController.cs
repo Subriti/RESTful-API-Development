@@ -1,6 +1,4 @@
-﻿using FindClosestRestaurantNearMe;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RESTful_API__ASP.NET_Core.Models;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
