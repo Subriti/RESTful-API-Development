@@ -1,4 +1,4 @@
-namespace RESTful_API__ASP.NET_Core
+namespace RESTful_API__ASP.NET_Core.Models
 {
     public class WeatherForecast
     {

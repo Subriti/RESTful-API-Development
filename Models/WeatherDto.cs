@@ -7,12 +7,12 @@ namespace Fetching_Weather
         [property: JsonPropertyName("name")]
         public string Name { get; set; }
         [property: JsonPropertyName("temp_c")]
-        public string temp_c { get; set; }
+        public string Temp_C { get; set; }
         [property: JsonPropertyName("temp_f")]
-        public string temp_f { get; set; }
+        public string Temp_F { get; set; }
         [property: JsonPropertyName("text")]
-        public string text { get; set; }
+        public string Condition { get; set; }
         [property: JsonPropertyName("last_updated")]
-        public string lastUpdated { get; set; }
+        public string LastUpdated { get; set; }
     }
 }

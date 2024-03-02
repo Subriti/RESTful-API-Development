@@ -1,8 +1,6 @@
 ﻿using FindClosestRestaurantNearMe;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RESTful_API__ASP.NET_Core.Models;
-using System.Device.Location;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
 {
@@ -13,10 +11,11 @@ namespace RESTful_API__ASP.NET_Core.Controllers
         RestaurantFinder restaurantFinder = new();
 
         [HttpGet("userLocation")]
-        public ActionResult<GeoCoordinate> GetUserLocation()
+        public ActionResult<Geocoordinates> GetUserLocation()
         {
             var userLocation = GeolocationService.GetCurrentUserLocation().Result;
-            return Ok(userLocation);
+            var geoCoordinates = new Geocoordinates(userLocation.Latitude, userLocation.Longitude);
+            return Ok(geoCoordinates);
         }
 
         [HttpGet]

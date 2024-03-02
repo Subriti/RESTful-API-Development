@@ -1,5 +1,6 @@
 using Fetching_Weather;
 using Microsoft.AspNetCore.Mvc;
+using RESTful_API__ASP.NET_Core.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace RESTful_API__ASP.NET_Core.Controllers

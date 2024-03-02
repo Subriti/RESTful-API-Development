@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.StaticFiles;
+using RESTful_API__ASP.NET_Core;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,12 @@ builder.Services.AddControllers(
     options => { options.ReturnHttpNotAcceptable = true; })
     .AddNewtonsoftJson()
     .AddXmlDataContractSerializerFormatters();
+
+builder.Services.AddDbContext<DBContext>(options => {
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("AppAspConnection"),
+        b => b.MigrationsAssembly(typeof(DBContext).Assembly.FullName));
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

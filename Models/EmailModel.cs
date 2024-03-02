@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Net.Mail;
-using System.Security;
 
 namespace RESTful_API__ASP.NET_Core.Models
 {
@@ -9,6 +7,8 @@ namespace RESTful_API__ASP.NET_Core.Models
         [Required]
         [EmailAddress(ErrorMessage = "Invalid email address.")] 
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.(com|net|org|gov|np|edu)$", ErrorMessage = "Invalid pattern.")]
+
+       // [DataType(DataType.EmailAddress)]
         public string SenderEmail {  get; set; }
         [Required]
         public string SenderPassword {  get; set; }

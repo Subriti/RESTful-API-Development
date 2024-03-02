@@ -25,10 +25,10 @@ namespace Fetching_Weather
 
                 WeatherDto weather = new();
                 weather.Name = (string)jsonObject["location"]["name"];
-                weather.temp_c = (string)jsonObject["current"]["temp_c"];
-                weather.temp_f= (string)jsonObject["current"]["temp_f"];
-                weather.lastUpdated= (string)jsonObject["current"]["last_updated"];
-                weather.text= (string)jsonObject["current"]["condition"]["text"];
+                weather.Temp_C = (string)jsonObject["current"]["temp_c"];
+                weather.Temp_F= (string)jsonObject["current"]["temp_f"];
+                weather.LastUpdated= (string)jsonObject["current"]["last_updated"];
+                weather.Condition= (string)jsonObject["current"]["condition"]["text"];
 
                 return weather;
             }

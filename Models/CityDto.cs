@@ -1,4 +1,6 @@
-﻿namespace RESTful_API__ASP.NET_Core.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RESTful_API__ASP.NET_Core.Models
 {
     public class CityDto
     {
