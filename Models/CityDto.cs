@@ -5,12 +5,12 @@ namespace RESTful_API__ASP.NET_Core.Models
     public class CityDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }= string.Empty;
+        public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public int NumberOfPointsOfInterest
         {
             get { return PointOfInterests.Count; }
         }
-        public ICollection<PointOfInterestDto> PointOfInterests { get; set; }= new List<PointOfInterestDto>();
+        public ICollection<PointOfInterestDto> PointOfInterests { get; set; } = new List<PointOfInterestDto>();
     }
 }

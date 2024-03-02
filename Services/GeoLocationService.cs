@@ -1,7 +1,6 @@
 using FindClosestRestaurantNearMe;
 using Newtonsoft.Json.Linq;
 using System.Device.Location;
-using System.Net.Http.Json;
 
 public static class GeolocationService
 {
@@ -66,12 +65,6 @@ public static class GeolocationService
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
-                   /* Using JObject
-                    * 
-                    * var content = await response.Content.ReadAsStringAsync();
-                    JObject jsonObject = JObject.Parse(content);
-                    location = (string)jsonObject.GetValue("loc");
-                   */
                     //accessing the API response using the model
                     var ipModel= await response.Content.ReadFromJsonAsync<IPInfoResponse>();
                     location = ipModel.Loc;

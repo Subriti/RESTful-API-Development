@@ -1,10 +1,6 @@
-﻿using Fetching_Weather;
-using FindClosestRestaurantNearMe;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using RESTful_API__ASP.NET_Core.Models;
-using Serilog.Formatting.Json;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
 {
@@ -29,10 +25,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
             using (var response = await client.SendAsync(request))
             {
                 response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-
-                //return Ok(JObject.Parse(body));
-               
+                var body = await response.Content.ReadAsStringAsync();          
 
                 JObject jsonObject = JObject.Parse(body);
                 var results = jsonObject["results"];
@@ -46,10 +39,6 @@ namespace RESTful_API__ASP.NET_Core.Controllers
                     modeldto.released_year = (int)result["released"];
 
                     var rating = double.TryParse((string)result["imdbrating"], out double ratingss);
-                   /* if (!rating.IsNullOrEmpty())
-                    {
-                        modeldto.imdbRating = (double)rating;
-                    }*/
                     modeldto.imdbRating = ratingss;
                     modeldto.type = (string)result["type"];
 
@@ -64,9 +53,6 @@ namespace RESTful_API__ASP.NET_Core.Controllers
                     listModel.Add(modeldto);
                 }
                 return Ok(listModel);
-
-                //var body = await response.Content.ReadFromJsonAsync<OTTModelDto>();
-                return Ok(body);
             }
         }
     }

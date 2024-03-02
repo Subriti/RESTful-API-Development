@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.StaticFiles;
-using RESTful_API__ASP.NET_Core;
 using Microsoft.EntityFrameworkCore;
+using RESTful_API__ASP.NET_Core.DbContext;
+using RESTful_API__ASP.NET_Core.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.AddSwaggerGen();
 
 //for downloading static file types
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
+
+//registering the service
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

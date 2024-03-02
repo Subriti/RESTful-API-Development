@@ -7,6 +7,7 @@ namespace RESTful_API__ASP.NET_Core.Profiles
         public CityProfile()
         {
             //CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
+            CreateMap<Models.Users, Models.CityDto>();
         }
     }
 }
