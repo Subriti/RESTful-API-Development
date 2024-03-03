@@ -21,8 +21,8 @@ namespace RESTful_API__ASP.NET_Core.Models
         public string Password { get; set; }
 
         [ForeignKey(nameof(CityId))]
-        //[JsonIgnore] // not showing full city with point of interest detail
         public int CityId { get; set; }
+        [JsonIgnore] // not showing full city with point of interest detail
         public CityDto? City { get; set; }
 
         public Users(string name, string email, string password, int cityId)

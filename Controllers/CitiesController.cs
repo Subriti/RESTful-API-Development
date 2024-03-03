@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using RESTful_API__ASP.NET_Core.Models;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
@@ -7,6 +9,12 @@ namespace RESTful_API__ASP.NET_Core.Controllers
     [Route("api/cities")]
     public class CitiesController : ControllerBase
     {
+        private readonly IMapper _mapper;
+        public CitiesController(IMapper mapper)
+        {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<CityDto>> GetCities()
         {
@@ -22,6 +30,66 @@ namespace RESTful_API__ASP.NET_Core.Controllers
                 return NotFound();
             }
             return Ok(cityToReturn);
+        }
+
+        [HttpPost]
+        public ActionResult<CityDto> AddCity(CreationDto city)
+        {
+            //get max id
+            var cityId = CitiesDataStore.Current.Cities.Max(p => p.Id);
+            var finalCity = new CityDto();
+            finalCity.Id = ++cityId;
+            finalCity.Name = city.Name;
+            finalCity.Description= city.Description;
+            CitiesDataStore.Current.Cities.Add(finalCity);
+            return Ok(finalCity);
+        }
+
+        [HttpPut("{cityId}")]
+        public ActionResult<CityDto> UpdateCity(int cityId, CreationDto city)
+        {
+            var cityToReturn = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (cityToReturn == null)
+            {
+                return NotFound();
+            }
+            cityToReturn.Name = city.Name;
+            cityToReturn.Description = city.Description;
+            return Ok(cityToReturn);
+        }
+
+        [HttpPatch("{cityId}")]
+        public ActionResult PartiallyUpdateCity(int cityId, JsonPatchDocument<CreationDto> patchDocument)
+        {
+            //city is not found
+            var existingCity = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (existingCity == null)
+            {
+                return NotFound();
+            }
+            //transform the city to a creationDTO
+            var cityToPatch = new CreationDto()
+            {
+                Name = existingCity.Name,
+                Description = existingCity.Description
+            };
+
+            patchDocument.ApplyTo(cityToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(cityToPatch))
+            {
+                return BadRequest(ModelState);
+            }
+
+            existingCity.Name = cityToPatch.Name;
+            existingCity.Description = cityToPatch.Description;
+
+            return NoContent();
         }
     }
 }

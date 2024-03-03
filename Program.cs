@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using RESTful_API__ASP.NET_Core.DbContext;
+using RESTful_API__ASP.NET_Core.Profiles;
 using RESTful_API__ASP.NET_Core.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,7 +30,8 @@ builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 //registering the service
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //searches for all profiles automatically
+//builder.Services.AddAutoMapper(typeof(CityProfile));
 
 var app = builder.Build();
 

@@ -1,16 +1,22 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RESTful_API__ASP.NET_Core.DbContext;
 using RESTful_API__ASP.NET_Core.Models;
+using RESTful_API__ASP.NET_Core.Profiles;
 
 namespace RESTful_API__ASP.NET_Core.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly DBContext _context;
-        public UserRepository(DBContext context)
+        private readonly IMapper _mapper;
+        public UserRepository(DBContext context, IMapper mapper)
         {
             _context = context ?? throw new ArgumentOutOfRangeException(nameof(context));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         public async Task<Users?> GetUserAsync(int userId)
         {
@@ -27,9 +33,9 @@ namespace RESTful_API__ASP.NET_Core.Repository
             return await _context.Users.Include(u => u.City).OrderBy(c => c.Name).ToListAsync();
         }
 
-        public async Task<Users> Login(int userId, string email, string password)
+        public async Task<Users> Login(string email, string password)
         {
-            var user = await _context.Users.Where(c => c.Id == userId).FirstOrDefaultAsync();
+            var user = await _context.Users.Where(c => c.Email == email).FirstOrDefaultAsync();
             if (user != null)
             {
                 if (user.Email.Equals(email) && user.Password.Equals(password))
@@ -39,24 +45,57 @@ namespace RESTful_API__ASP.NET_Core.Repository
             }
             return null;
         }
-        public Task<Users?> AddUsers(Users users)
+
+        public async Task<Users> AddUsers(UsersCreationDTO users)
         {
-            throw new NotImplementedException();
+            var finalUser = _mapper.Map<Users>(users);
+
+            var user= _context.Users.Add(finalUser);
+            await _context.SaveChangesAsync();
+
+            return GetUserAsync(user.Entity.Id).Result;
         }
 
-        public Task<Users> DeleteUsersAsync(int userId)
+        public void DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            var user = GetUserAsync(userId);
+            _context.Users.Remove(user.Result);
+            _context.SaveChangesAsync();
         }
 
-        public Task<Users> PatchUserDetails(int userId, Users userDetails)
+        public async Task<Users> PatchUserDetails(int userId, JsonPatchDocument<UsersCreationDTO> patchDocument)
         {
-            throw new NotImplementedException();
-        }
+            var existingUser = await GetUserAsync(userId);
+            if (existingUser != null)
+            {
+                //transform user entity to usercreationDTO
+                var userToPatch = new UsersCreationDTO(existingUser.Name,existingUser.Email,existingUser.Password,existingUser.CityId);
 
-        public Task<Users> UpdateUsersAsync(int userId, Users users)
+                patchDocument.ApplyTo(userToPatch);
+
+                existingUser.Name = userToPatch.Name;
+                existingUser.Email= userToPatch.Email;
+                existingUser.Password = userToPatch.Password;
+                existingUser.CityId= userToPatch.CityId;
+
+                return existingUser;
+            }
+            return null;
+        }    
+
+        public async Task<Users> UpdateUsersAsync(int userId, UsersCreationDTO users)
         {
-            throw new NotImplementedException();
+            var finalUser = _mapper.Map<Users>(users);
+            var existingUser = await GetUserAsync(userId);
+            if (existingUser != null)
+            {
+                existingUser.Name = finalUser.Name;
+                existingUser.Email = finalUser.Email;
+                existingUser.CityId = finalUser.CityId;
+                _context.SaveChanges();
+                return existingUser;
+            }
+            return null;
         }
     }
 }

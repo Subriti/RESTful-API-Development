@@ -2,7 +2,7 @@
 
 namespace RESTful_API__ASP.NET_Core.Models
 {
-    public class PointOfInterestForCreationDto
+    public class CreationDto
     {
         //customized error msg
         [Required(ErrorMessage ="You should provide a name value.")]

@@ -39,7 +39,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, PointOfInterestForCreationDto pointOfInterest)
+        public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, CreationDto pointOfInterest)
         {
             //automatically checked
 
@@ -72,7 +72,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
 
         //use put to change all attributes
         [HttpPut("{pointOfInterestId}")]
-        public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, PointOfInterestForCreationDto pointOfInterest)
+        public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, CreationDto pointOfInterest)
         {
             //parent city is not found
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
@@ -97,7 +97,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
 
         //use patch to change single to few attributes; with operation
         [HttpPatch("{pointOfInterestId}")]
-        public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfInterestId, JsonPatchDocument<PointOfInterestForCreationDto> patchDocument)
+        public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfInterestId, JsonPatchDocument<CreationDto> patchDocument)
         {
             //parent city is not found
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
@@ -114,7 +114,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
             }
 
             //transform the point of interest from store to a pointOfInterestUPdateDTO
-            var pointOfInterestToPatch = new PointOfInterestForCreationDto()
+            var pointOfInterestToPatch = new CreationDto()
             {
                 Name = pointOfInterestFromStore.Name,
                 Description = pointOfInterestFromStore.Description

@@ -1,4 +1,5 @@
-﻿using RESTful_API__ASP.NET_Core.Models;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using RESTful_API__ASP.NET_Core.Models;
 
 namespace RESTful_API__ASP.NET_Core.Repository
 {
@@ -6,10 +7,10 @@ namespace RESTful_API__ASP.NET_Core.Repository
     {
         Task<IEnumerable<Users>> GetUsersAsync();
         Task<Users?> GetUserAsync(int userId);
-        Task<Users> Login(int userId, string email, string password);
-        Task<Users?> AddUsers(Users users);
-        Task<Users> UpdateUsersAsync(int userId, Users users);
-        Task<Users> DeleteUsersAsync(int userId);
-        Task<Users> PatchUserDetails(int userId, Users userDetails);
+        Task<Users> Login(string email, string password);
+        Task<Users> AddUsers(UsersCreationDTO users);
+        Task<Users> UpdateUsersAsync(int userId, UsersCreationDTO users);
+        void DeleteUser(int userId);
+        Task<Users> PatchUserDetails(int userId, JsonPatchDocument<UsersCreationDTO> userDetails);
     }
 }
