@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.StaticFiles;
 
 namespace RESTful_API__ASP.NET_Core.Controllers
 {
-    [ApiController]
-    [Route("api/files")]
+    //[ApiController]
+    //[Route("api/files")]
     public class FilesController : ControllerBase
     {
         private readonly FileExtensionContentTypeProvider _extensionContentTypeProvider;
@@ -13,7 +13,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
             _extensionContentTypeProvider = fileExtensionContentTypeProvider?? throw new System.ArgumentNullException(nameof(fileExtensionContentTypeProvider));
         }    
 
-        [HttpGet("{fileId}")]
+        //[HttpGet("{fileId}")]
         public ActionResult GetFile(string fileId)
         {
             var pathToFile = "getting-started-with-rest-slides.pdf";

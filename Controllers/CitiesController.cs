@@ -37,10 +37,12 @@ namespace RESTful_API__ASP.NET_Core.Controllers
         {
             //get max id
             var cityId = CitiesDataStore.Current.Cities.Max(p => p.Id);
+            
             var finalCity = new CityDto();
             finalCity.Id = ++cityId;
             finalCity.Name = city.Name;
             finalCity.Description= city.Description;
+
             CitiesDataStore.Current.Cities.Add(finalCity);
             return Ok(finalCity);
         }
@@ -91,5 +93,18 @@ namespace RESTful_API__ASP.NET_Core.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{cityId}")]
+        public ActionResult DeleteCity(int cityId)
+        {
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            CitiesDataStore.Current.Cities.Remove(city);
+            return NoContent();
+;        }
     }
 }

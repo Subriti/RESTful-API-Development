@@ -9,7 +9,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        /*private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -24,7 +24,7 @@ namespace RESTful_API__ASP.NET_Core.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-        }
+        }*/
 
         [HttpGet("fetchWeatherData")]
         public ActionResult<WeatherDto> GetCurrentWeatherData([Required]string city, string? longitude)
