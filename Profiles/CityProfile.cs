@@ -10,8 +10,8 @@ namespace RESTful_API__ASP.NET_Core.Profiles
             CreateMap<Users, UsersCreationDTO>(); //from entity to dto(get)
             CreateMap<UsersCreationDTO, Users>(); //from dto to entity (post)
 
-            CreateMap<CityDto, CreationDto>();
-            CreateMap<CreationDto, CityDto>();
+            /*CreateMap<CityDto, CreationDto>();
+            CreateMap<CreationDto, CityDto>();*/
         }
     }
 }

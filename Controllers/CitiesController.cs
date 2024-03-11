@@ -9,12 +9,6 @@ namespace RESTful_API__ASP.NET_Core.Controllers
     [Route("api/cities")]
     public class CitiesController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        public CitiesController(IMapper mapper)
-        {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        }
-
         [HttpGet]
         public ActionResult<IEnumerable<CityDto>> GetCities()
         {
